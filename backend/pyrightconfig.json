@@ -1,8 +1,13 @@
 {
-    "venvPath": ".",
-    "venv": "venv",
-    "extraPaths": [
-        "."
-    ],
-    "reportMissingImports": "none"
+  "venvPath": ".",
+  "venv": "venv",
+
+  "include": ["app", "tests"],
+
+  "executionEnvironments": [
+    {
+      "root": ".",
+      "extraPaths": ["."]
+    }
+  ]
 }
