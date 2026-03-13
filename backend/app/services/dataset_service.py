@@ -14,3 +14,16 @@ def process_dataset(file):
         "dataset_id": dataset_id,
         **stats,
     }
+
+
+def get_dataset_preview(dataset_id, limit=5):
+    df = dataset_store.get(dataset_id)
+
+    if df is None:
+        return None
+
+    return {
+        "dataset_id": dataset_id,
+        "columns": list(df.columns),
+        "preview": df.head(limit).to_dict(orient="records"),
+    }
