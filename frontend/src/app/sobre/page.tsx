@@ -6,7 +6,7 @@ export default function Sobre() {
     <>
       <Navbar />
 
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-background animate-fadeIn">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h1 className="text-4xl font-bold mb-8 text-primary">
             Sobre o Projeto

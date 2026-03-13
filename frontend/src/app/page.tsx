@@ -8,10 +8,12 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <Hero />
-      <Features />
-      <UploadCTA />
-      <Footer />
+      <section className="py-24 bg-background animate-fadeIn">
+        <Hero />
+        <Features />
+        <UploadCTA />
+        <Footer />
+      </section>
     </>
   )
 }

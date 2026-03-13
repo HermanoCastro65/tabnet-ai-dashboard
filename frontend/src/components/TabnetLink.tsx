@@ -17,7 +17,7 @@ export default function TabnetLink() {
         <Image
           src={tabnetLogo}
           alt="Acessar TabNet"
-          className="mx-auto h-20 w-auto"
+          className="mx-auto h-20 w-auto hover:scale-110 hover:drop-shadow-lg"
           priority
         />
       </a>
