@@ -18,7 +18,23 @@ export default function Features() {
     <section className="py-20 bg-background">
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10">
         {features.map((f, i) => (
-          <div key={i} className="bg-white p-8 rounded-xl shadow-sm">
+          <div
+            key={i}
+            className="
+            bg-white 
+            p-8 
+            rounded-xl 
+            shadow-sm
+            border
+            border-transparent
+            transition-all
+            duration-300
+            hover:border-yellow-400
+            hover:shadow-lg
+            hover:-translate-y-1
+            cursor-default
+            "
+          >
             <h3 className="text-xl font-semibold mb-4 text-primary">
               {f.title}
             </h3>

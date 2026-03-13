@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function UploadCTA() {
   return (
     <section className="py-24 text-center">
@@ -10,9 +12,16 @@ export default function UploadCTA() {
         análises com IA.
       </p>
 
-      <button className="bg-primary text-white px-8 py-4 rounded-lg font-semibold hover:bg-primaryDark">
-        Enviar Dataset
-      </button>
+      <Link href="/plataforma">
+        <button
+          className="bg-primary text-white px-8 py-4 rounded-lg font-semibold
+          hover:bg-primaryDark
+          active:bg-highlight
+          transition"
+        >
+          Usar Plataforma
+        </button>
+      </Link>
     </section>
   )
 }
