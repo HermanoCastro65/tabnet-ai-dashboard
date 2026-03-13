@@ -7,7 +7,5 @@ router = APIRouter()
 
 @router.post("/upload")
 async def upload_dataset(file: UploadFile = File(...)):
-
     result = process_dataset(file)
-
     return result
