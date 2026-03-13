@@ -1,0 +1,19 @@
+CNES - Equipes de Saúde - Paraíba
+Quantidade por Município gestor
+Tipo de Estabelecimento: HOSPITAL GERAL
+Período:Jun/2024
+"Município gestor";"Quantidade"
+"250440 Conceição";1
+"250510 Cuité";2
+"250600 Esperança";1
+"251660 Tavares";2
+"Total";6
+ Fonte: Ministério da Saúde - Cadastro Nacional dos Estabelecimentos de Saúde do Brasil - CNES
+ Nota:
+ - Os dados relativos ao Cadastro Nacional de Estabelecimentos de Saúde (CNES) exibidos no TABNET referem-se aos registros constantes no Banco de Dados Nacional do CNES com status ATIVO.
+ - A partir do processamento de junho de 2012, houve mudança na classificação da natureza e esfera dos estabelecimentos. Com isso, temos que:
+ 
+ Até maio de 2012 estas informações estão disponíveis como "Natureza" e "Esfera Administrativa".
+ De junho de 2012 a outubro de 2015, estão disponíveis tanto como "Natureza" e "Esfera Administrativa", como "Natureza Jurídica" e "Esfera Jurídica".
+ A partir de novembro de 2015, estão disponíveis como "Natureza Jurídica" e "Esfera Jurídica".
+ 

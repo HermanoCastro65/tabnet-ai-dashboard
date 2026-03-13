@@ -1,6 +1,67 @@
 import io
+import re
 
 import pandas as pd  # type: ignore
+
+
+def extract_metadata(lines):
+
+    metadata = {}
+
+    # -------------------------
+    # título da pesquisa
+    # -------------------------
+
+    if lines:
+        title = lines[0].strip()
+        if title:
+            metadata["title"] = title
+
+            # tentar extrair local do título
+            if "-" in title:
+                parts = title.split("-", 1)
+                metadata["indicator"] = parts[0].strip()
+                metadata["location"] = parts[1].strip()
+
+    # -------------------------
+    # query fields (filtros)
+    # -------------------------
+
+    for line in lines:
+
+        if ":" in line:
+
+            key, value = line.split(":", 1)
+
+            key = key.strip()
+            value = value.strip()
+
+            if key and value and len(key) < 60:
+
+                # evitar capturar textos grandes
+                if len(value) < 120:
+                    metadata[key] = value
+
+    return metadata
+
+
+def detect_table_start(lines):
+
+    for i, line in enumerate(lines):
+
+        if ":" in line:
+            continue
+
+        tokens = re.split(r"\s{2,}|\t|;", line.strip())
+
+        if len(tokens) >= 3:
+
+            if "Óbitos" in line and "por" in line:
+                continue
+
+            return i
+
+    return None
 
 
 def load_csv(file):
@@ -12,22 +73,19 @@ def load_csv(file):
     except UnicodeDecodeError:
         text = raw.decode("latin1")
 
-    if "Cap I" not in text:
+    lines = text.splitlines()
+
+    metadata = extract_metadata(lines[:100])
+
+    header_index = detect_table_start(lines)
+
+    if header_index is None:
 
         buffer = io.StringIO(text)
 
         df = pd.read_csv(buffer, sep=None, engine="python")
 
     else:
-
-        lines = text.splitlines()
-
-        header_index = None
-
-        for i, line in enumerate(lines):
-            if "Cap I" in line:
-                header_index = i
-                break
 
         table_text = "\n".join(lines[header_index:])
 
@@ -40,25 +98,13 @@ def load_csv(file):
             on_bad_lines="skip",
         )
 
-    # ------------------------
-    # LIMPEZA DOS DADOS
-    # ------------------------
-
-    # remover aspas das colunas
     df.columns = df.columns.str.replace('"', "").str.strip()
 
-    # remover aspas dos valores
     df = df.replace('"', "", regex=True)
 
-    # transformar "-" em NaN
     df = df.replace("-", pd.NA)
 
-    # converter colunas numéricas
     for col in df.columns[1:]:
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    print("\n========== CSV CLEANED ==========")
-    print(df.head())
-    print("=================================\n")
-
-    return df
+    return df, metadata

@@ -7,13 +7,7 @@ from app.storage.dataset_store import dataset_store
 
 def process_dataset(file):
 
-    df = load_csv(file)
-
-    print("\n========== DATASET RECEIVED ==========")
-    print("Rows:", len(df))
-    print("Columns:", df.columns.tolist())
-    print(df.head())
-    print("======================================\n")
+    df, metadata = load_csv(file)
 
     dataset_id = dataset_store.save(df)
 
@@ -21,6 +15,7 @@ def process_dataset(file):
 
     return {
         "dataset_id": dataset_id,
+        "metadata": metadata,
         **stats,
     }
 
@@ -34,7 +29,6 @@ def get_dataset_preview(dataset_id, limit=50):
 
     preview_df = df.head(limit)
 
-    # pandas converte NaN -> null automaticamente
     preview = json.loads(preview_df.to_json(orient="records"))
 
     return {
