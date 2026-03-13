@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import TabnetLink from '../../components/TabnetLink'
 
 export default function Plataforma() {
   const router = useRouter()
@@ -79,7 +80,7 @@ export default function Plataforma() {
     <>
       <Navbar />
 
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-background animate-fadeIn">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h1 className="text-4xl font-bold mb-8 text-primary">
             Plataforma TabNet AI
@@ -97,12 +98,14 @@ export default function Plataforma() {
             onDragOver={handleDrag}
             onDragLeave={handleDragLeave}
             className={`
-              border-2
-              border-dashed
-              rounded-xl
-              p-16
-              transition
-              ${dragActive ? 'border-yellow-400 bg-yellow-50' : 'border-gray-300'}
+                border-2
+                border-dashed
+                rounded-xl
+                p-16
+                transition-all
+                duration-300
+                hover:shadow-lg
+                ${dragActive ? 'border-yellow-400 bg-yellow-50' : 'border-gray-300'}
             `}
           >
             <p className="text-lg mb-6 text-gray-700">
@@ -189,6 +192,10 @@ export default function Plataforma() {
               </button>
             </div>
           )}
+
+          {/* Link para o TabNet */}
+
+          <TabnetLink />
         </div>
       </section>
 

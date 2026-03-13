@@ -30,8 +30,8 @@ export default function Features() {
             transition-all
             duration-300
             hover:border-yellow-400
-            hover:shadow-lg
-            hover:-translate-y-1
+            hover:-translate-y-2
+            hover:shadow-xl
             cursor-default
             "
           >

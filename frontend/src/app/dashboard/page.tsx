@@ -6,7 +6,7 @@ export default function Dashboard() {
     <>
       <Navbar />
 
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-background animate-fadeIn">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-4xl font-bold text-primary mb-6">Dashboard</h1>
 
