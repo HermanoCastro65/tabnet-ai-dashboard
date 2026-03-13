@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import TabnetLink from '../../components/TabnetLink'
 
 export default function Plataforma() {
   const router = useRouter()
@@ -189,6 +190,10 @@ export default function Plataforma() {
               </button>
             </div>
           )}
+
+          {/* Link para o TabNet */}
+
+          <TabnetLink />
         </div>
       </section>
 
