@@ -1,7 +1,7 @@
 module.exports = {
-  testEnvironment: "jest-environment-jsdom",
+  testEnvironment: 'jest-environment-jsdom',
   transform: {
-    "^.+\\.tsx?$": "ts-jest"
+    '^.+\\.tsx?$': 'ts-jest',
   },
-  moduleFileExtensions: ["ts", "tsx", "js"]
-};
+  moduleFileExtensions: ['ts', 'tsx', 'js'],
+}

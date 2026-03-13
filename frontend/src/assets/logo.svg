@@ -1,0 +1,8 @@
+<svg width="180" height="40" viewBox="0 0 180 40" xmlns="http://www.w3.org/2000/svg">
+  <rect x="2" y="8" width="6" height="24" fill="#005CA9"/>
+  <rect x="12" y="14" width="6" height="18" fill="#1E88E5"/>
+  <rect x="22" y="4" width="6" height="28" fill="#003E73"/>
+  <text x="40" y="25" font-family="Inter" font-size="18" fill="#005CA9" font-weight="600">
+    TabNet AI
+  </text>
+</svg>
