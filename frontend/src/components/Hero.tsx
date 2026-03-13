@@ -8,16 +8,6 @@ export default function Hero() {
           Transforme planilhas do TabNet / DataSUS em dashboards interativos,
           análises exploratórias e insights gerados por inteligência artificial.
         </p>
-
-        <div className="flex justify-center gap-6">
-          <button className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">
-            Enviar Dataset
-          </button>
-
-          <button className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-primary transition">
-            Explorar Dashboard
-          </button>
-        </div>
       </div>
     </section>
   )
