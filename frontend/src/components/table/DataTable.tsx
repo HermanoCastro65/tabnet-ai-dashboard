@@ -59,7 +59,7 @@ export default function DataTable({ columns, data }: Props) {
     <div className="mt-10">
       <div
         ref={scrollRef}
-        className="table-scroll overflow-auto max-h-[70vh] cursor-grab active:cursor-grabbing"
+        className="table-scroll overflow-auto max-h-[70vh] w-fit max-w-full cursor-grab active:cursor-grabbing"
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
