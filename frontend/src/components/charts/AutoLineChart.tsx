@@ -17,30 +17,52 @@ type Props = {
   metrics: string[]
 }
 
-const colors = ['#2563eb', '#16a34a', '#dc2626', '#9333ea']
+const colors = [
+  '#005CA9',
+  '#1E88E5',
+  '#003E73',
+  '#FFC107',
+  '#3A8FD9',
+  '#2A6FB0',
+  '#4FA3E3',
+  '#FFD54F',
+]
 
 export default function AutoLineChart({ data, dimension, metrics }: Props) {
+  const filteredMetrics = metrics.filter((m) => m.toLowerCase() !== 'total')
+
   return (
-    <div className="w-full h-[400px] bg-white rounded-xl p-4 shadow">
+    <div className="w-full h-[650px] bg-white rounded-xl p-8 shadow">
+      <h3 className="text-lg font-semibold mb-6">Evolução Temporal</h3>
+
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
+        <LineChart
+          data={data}
+          margin={{ top: 20, right: 30, left: 20, bottom: 80 }}
+        >
           <CartesianGrid strokeDasharray="3 3" />
 
-          <XAxis dataKey={dimension} />
+          <XAxis
+            dataKey={dimension}
+            interval="preserveStartEnd"
+            tick={{ fontSize: 12 }}
+          />
 
-          <YAxis />
+          <YAxis tick={{ fontSize: 12 }} />
 
           <Tooltip />
 
-          <Legend />
+          <Legend verticalAlign="top" height={50} />
 
-          {metrics.map((metric, index) => (
+          {filteredMetrics.map((metric, index) => (
             <Line
               key={metric}
               type="monotone"
               dataKey={metric}
               stroke={colors[index % colors.length]}
               strokeWidth={2}
+              dot={false}
+              activeDot={{ r: 5 }}
             />
           ))}
         </LineChart>

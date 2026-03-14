@@ -16,31 +16,37 @@ type Props = {
 }
 
 const colors = [
-  '#2563eb',
-  '#16a34a',
-  '#dc2626',
-  '#ca8a04',
-  '#9333ea',
-  '#0891b2',
+  '#005CA9',
+  '#003E73',
+  '#1E88E5',
+  '#FFC107',
+  '#3A8FD9',
+  '#2A6FB0',
+  '#4FA3E3',
+  '#FFD54F',
+  '#6BB6F0',
+  '#1C5FA0',
 ]
 
 export default function AutoPieChart({ data, dimension, metrics }: Props) {
-  const metric = metrics[0]
+  const metric = metrics.find((m) => m.toLowerCase() !== 'total') as string
 
-  const pieData = data.map((row) => ({
-    name: row[dimension],
-    value: row[metric],
-  }))
+  const pieData = data
+    .filter((row) => row[dimension]?.toLowerCase() !== 'total')
+    .map((row) => ({
+      name: row[dimension],
+      value: row[metric],
+    }))
 
   return (
-    <div className="w-full h-[400px] bg-white rounded-xl p-4 shadow">
+    <div className="w-full h-[650px] bg-white rounded-xl p-8 shadow">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
             data={pieData}
             dataKey="value"
             nameKey="name"
-            outerRadius={140}
+            outerRadius={180}
             label
           >
             {pieData.map((_, index) => (
@@ -50,7 +56,7 @@ export default function AutoPieChart({ data, dimension, metrics }: Props) {
 
           <Tooltip />
 
-          <Legend />
+          <Legend verticalAlign="bottom" />
         </PieChart>
       </ResponsiveContainer>
     </div>

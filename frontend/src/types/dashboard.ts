@@ -24,6 +24,7 @@ export type ChartSpec = {
   type: 'bar' | 'stacked_bar' | 'line' | 'pie'
   dimension: string
   metrics: string[]
+  title?: string
 }
 
 export type DashboardSpec = {

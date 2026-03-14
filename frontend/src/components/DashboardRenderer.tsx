@@ -16,47 +16,52 @@ type Props = {
 
 export default function DashboardRenderer({ dashboard, data }: Props) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="w-full space-y-16">
       {dashboard.charts.map((chart, index) => {
         switch (chart.type) {
           case 'bar':
             return (
-              <AutoBarChart
-                key={index}
-                data={data}
-                dimension={chart.dimension}
-                metrics={chart.metrics}
-              />
+              <div key={index} className="w-full">
+                <AutoBarChart
+                  data={data}
+                  dimension={chart.dimension}
+                  metrics={chart.metrics}
+                />
+              </div>
             )
 
           case 'stacked_bar':
             return (
-              <AutoStackedBarChart
-                key={index}
-                data={data}
-                dimension={chart.dimension}
-                metrics={chart.metrics}
-              />
+              <div key={index} className="w-full">
+                <AutoStackedBarChart
+                  data={data}
+                  dimension={chart.dimension}
+                  metrics={chart.metrics}
+                  title={chart.title}
+                />
+              </div>
             )
 
           case 'line':
             return (
-              <AutoLineChart
-                key={index}
-                data={data}
-                dimension={chart.dimension}
-                metrics={chart.metrics}
-              />
+              <div key={index} className="w-full">
+                <AutoLineChart
+                  data={data}
+                  dimension={chart.dimension}
+                  metrics={chart.metrics}
+                />
+              </div>
             )
 
           case 'pie':
             return (
-              <AutoPieChart
-                key={index}
-                data={data}
-                dimension={chart.dimension}
-                metrics={chart.metrics}
-              />
+              <div key={index} className="w-full">
+                <AutoPieChart
+                  data={data}
+                  dimension={chart.dimension}
+                  metrics={chart.metrics}
+                />
+              </div>
             )
 
           default:

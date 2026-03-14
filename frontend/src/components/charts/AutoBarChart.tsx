@@ -17,27 +17,36 @@ type Props = {
 }
 
 export default function AutoBarChart({ data, dimension, metrics }: Props) {
-  const metric = metrics[0]
+  const metric = metrics.find((m) => m.toLowerCase() !== 'total') as string
+
+  const sorted = [...data].sort((a, b) => (b[metric] || 0) - (a[metric] || 0))
+
+  const chartData = sorted.slice(0, 15)
 
   return (
-    <div className="w-full h-[400px] bg-white rounded-xl p-4 shadow">
+    <div className="w-full h-[650px] bg-white rounded-xl p-8 shadow">
+      <h3 className="text-lg font-semibold mb-6">Top Municípios</h3>
+
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data}>
+        <BarChart
+          data={chartData}
+          margin={{ top: 20, right: 30, left: 20, bottom: 120 }}
+        >
           <CartesianGrid strokeDasharray="3 3" />
 
           <XAxis
             dataKey={dimension}
-            tick={{ fontSize: 12 }}
-            interval={0}
-            angle={-30}
+            angle={-35}
             textAnchor="end"
+            interval={0}
+            tick={{ fontSize: 12 }}
           />
 
-          <YAxis />
+          <YAxis tick={{ fontSize: 12 }} />
 
           <Tooltip />
 
-          <Bar dataKey={metric} radius={[6, 6, 0, 0]} />
+          <Bar dataKey={metric} fill="#005CA9" barSize={22} />
         </BarChart>
       </ResponsiveContainer>
     </div>
