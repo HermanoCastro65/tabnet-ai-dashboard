@@ -7,24 +7,54 @@ import DataTable from '../../components/table/DataTable'
 import MetadataPanel from '../../components/dashboard/MetadataPanel'
 import { useDataset } from '../../hooks/useDataset'
 
+function DatasetSection({
+  datasetId,
+  metadata,
+}: {
+  datasetId: string
+  metadata: any
+}) {
+  const { data, isLoading, error } = useDataset(datasetId)
+
+  return (
+    <div className="mb-24">
+      {metadata && <MetadataPanel metadata={metadata} />}
+
+      {isLoading && (
+        <p className="text-center text-gray-600">Carregando dados...</p>
+      )}
+
+      {error && (
+        <p className="text-center text-red-500">Erro ao carregar dataset</p>
+      )}
+
+      {data && <DataTable columns={data.columns} data={data.preview} />}
+    </div>
+  )
+}
+
 export default function Dashboard() {
-  const [datasetId, setDatasetId] = useState<string | null>(null)
-  const [metadata, setMetadata] = useState<any>(null)
+  const [datasetIds, setDatasetIds] = useState<string[]>([])
+  const [metadatas, setMetadatas] = useState<any[]>([])
 
   useEffect(() => {
-    const id = localStorage.getItem('dataset_id')
-    const meta = localStorage.getItem('dataset_metadata')
+    const idsStored = localStorage.getItem('dataset_ids')
+    const metasStored = localStorage.getItem('dataset_metadatas')
 
-    if (id) setDatasetId(id)
+    if (idsStored) {
+      setDatasetIds(JSON.parse(idsStored))
+    } else {
+      const singleId = localStorage.getItem('dataset_id')
+      if (singleId) setDatasetIds([singleId])
+    }
 
-    if (meta) {
-      try {
-        setMetadata(JSON.parse(meta))
-      } catch {}
+    if (metasStored) {
+      setMetadatas(JSON.parse(metasStored))
+    } else {
+      const singleMeta = localStorage.getItem('dataset_metadata')
+      if (singleMeta) setMetadatas([JSON.parse(singleMeta)])
     }
   }, [])
-
-  const { data, isLoading, error } = useDataset(datasetId || '')
 
   return (
     <>
@@ -36,25 +66,13 @@ export default function Dashboard() {
             Dashboard
           </h1>
 
-          {/* METADATA */}
-
-          {metadata && <MetadataPanel metadata={metadata} />}
-
-          {/* LOADING */}
-
-          {isLoading && (
-            <p className="text-center text-gray-600">Carregando dados...</p>
-          )}
-
-          {/* ERRO */}
-
-          {error && (
-            <p className="text-center text-red-500">Erro ao carregar dataset</p>
-          )}
-
-          {/* TABELA */}
-
-          {data && <DataTable columns={data.columns} data={data.preview} />}
+          {datasetIds.map((id, index) => (
+            <DatasetSection
+              key={id}
+              datasetId={id}
+              metadata={metadatas[index] || null}
+            />
+          ))}
         </div>
       </section>
 

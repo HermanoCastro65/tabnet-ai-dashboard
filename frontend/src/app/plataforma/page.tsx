@@ -74,36 +74,42 @@ export default function Plataforma() {
 
   async function generateDashboard() {
     if (files.length === 0) {
-      setError('Selecione um arquivo CSV.')
+      setError('Selecione pelo menos um arquivo CSV.')
       return
     }
 
     try {
-      const formData = new FormData()
+      const datasetIds: string[] = []
+      const metadatas: any[] = []
 
-      formData.append('file', files[0])
+      for (const file of files) {
+        const formData = new FormData()
+        formData.append('file', file)
 
-      const response = await fetch('http://localhost:8000/api/upload', {
-        method: 'POST',
-        body: formData,
-      })
+        const response = await fetch('http://localhost:8000/api/upload', {
+          method: 'POST',
+          body: formData,
+        })
 
-      if (!response.ok) {
-        throw new Error('Erro no upload')
+        if (!response.ok) {
+          throw new Error('Erro no upload')
+        }
+
+        const data = await response.json()
+
+        datasetIds.push(data.dataset_id)
+
+        if (data.metadata) {
+          metadatas.push(data.metadata)
+        }
       }
 
-      const data = await response.json()
-
-      localStorage.setItem('dataset_id', data.dataset_id)
-
-      if (data.metadata) {
-        localStorage.setItem('dataset_metadata', JSON.stringify(data.metadata))
-      }
+      localStorage.setItem('dataset_ids', JSON.stringify(datasetIds))
+      localStorage.setItem('dataset_metadatas', JSON.stringify(metadatas))
 
       router.push('/dashboard')
     } catch (err) {
       console.error(err)
-
       setError('Erro ao enviar arquivo para o backend.')
     }
   }
