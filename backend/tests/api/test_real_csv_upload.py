@@ -9,7 +9,7 @@ client = TestClient(app)
 
 def test_real_csv_upload():
 
-    path = pathlib.Path("tests/fixtures/sample_dataset.csv")
+    path = pathlib.Path("tests/fixtures/data_set (1).csv")
 
     with open(path, "rb") as f:
 
