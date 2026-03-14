@@ -59,20 +59,20 @@ export default function DataTable({ columns, data }: Props) {
     <div className="mt-10">
       <div
         ref={scrollRef}
-        className="overflow-x-auto cursor-grab active:cursor-grabbing"
+        className="table-scroll overflow-auto max-h-[70vh] cursor-grab active:cursor-grabbing"
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
       >
         <table className="border-collapse text-sm bg-white shadow-md border border-gray-200">
-          <thead className="bg-primary text-white sticky top-0 z-50 shadow-md">
+          <thead className="bg-primary text-white shadow-md">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="px-6 py-3 text-left font-semibold whitespace-nowrap bg-primary"
+                    className="px-6 py-3 text-left font-semibold whitespace-nowrap bg-primary sticky top-0 z-50"
                   >
                     {flexRender(
                       header.column.columnDef.header,
