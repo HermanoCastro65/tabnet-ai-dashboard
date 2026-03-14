@@ -17,6 +17,7 @@ export interface DatasetUploadResponse {
 
 export interface DatasetPreviewResponse {
   dataset_id: string
+  metadata?: DatasetMetadata
   columns: string[]
   preview: Record<string, number | string | null>[]
 }

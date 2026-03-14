@@ -94,9 +94,11 @@ export default function Plataforma() {
 
       const data = await response.json()
 
-      const datasetId = data.dataset_id
+      localStorage.setItem('dataset_id', data.dataset_id)
 
-      localStorage.setItem('dataset_id', datasetId)
+      if (data.metadata) {
+        localStorage.setItem('dataset_metadata', JSON.stringify(data.metadata))
+      }
 
       router.push('/dashboard')
     } catch (err) {
