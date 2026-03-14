@@ -1,4 +1,5 @@
 import './globals.css'
+import ReactQueryProvider from '../providers/ReactQueryProvider'
 
 export const metadata = {
   title: 'TabNet AI Dashboard',
@@ -12,7 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
     </html>
   )
 }

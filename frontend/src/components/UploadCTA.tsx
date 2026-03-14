@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 
 export default function UploadCTA() {
@@ -14,10 +16,17 @@ export default function UploadCTA() {
 
       <Link href="/plataforma">
         <button
-          className="bg-primary text-white px-8 py-4 rounded-lg font-semibold
+          className="
+          bg-primary
+          text-white
+          px-8
+          py-4
+          rounded-lg
+          font-semibold
           hover:bg-primaryDark
           active:bg-highlight
-          transition"
+          transition
+          "
         >
           Usar Plataforma
         </button>

@@ -72,8 +72,38 @@ export default function Plataforma() {
     setError('')
   }
 
-  function generateDashboard() {
-    router.push('/dashboard')
+  async function generateDashboard() {
+    if (files.length === 0) {
+      setError('Selecione um arquivo CSV.')
+      return
+    }
+
+    try {
+      const formData = new FormData()
+
+      formData.append('file', files[0])
+
+      const response = await fetch('http://localhost:8000/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error('Erro no upload')
+      }
+
+      const data = await response.json()
+
+      const datasetId = data.dataset_id
+
+      localStorage.setItem('dataset_id', datasetId)
+
+      router.push('/dashboard')
+    } catch (err) {
+      console.error(err)
+
+      setError('Erro ao enviar arquivo para o backend.')
+    }
   }
 
   return (
