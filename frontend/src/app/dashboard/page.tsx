@@ -6,6 +6,8 @@ import Footer from '../../components/Footer'
 import DataTable from '../../components/table/DataTable'
 import MetadataPanel from '../../components/dashboard/MetadataPanel'
 import { useDataset } from '../../hooks/useDataset'
+import DashboardRenderer from '@/components/DashboardRenderer'
+import { generateDashboard } from '@/generator/dashboardGenerator'
 
 function DatasetSection({
   datasetId,
@@ -15,6 +17,14 @@ function DatasetSection({
   metadata: any
 }) {
   const { data, isLoading, error } = useDataset(datasetId)
+
+  const dashboard =
+    data &&
+    generateDashboard({
+      columns: data.columns,
+      data: data.preview,
+      metadata,
+    })
 
   return (
     <div className="mb-24">
@@ -28,7 +38,19 @@ function DatasetSection({
         <p className="text-center text-red-500">Erro ao carregar dataset</p>
       )}
 
-      {data && <DataTable columns={data.columns} data={data.preview} />}
+      {data && (
+        <>
+          {/* TABELA */}
+          <DataTable columns={data.columns} data={data.preview} />
+
+          {/* GRÁFICOS */}
+          {dashboard && (
+            <div className="mt-12">
+              <DashboardRenderer dashboard={dashboard} data={data.preview} />
+            </div>
+          )}
+        </>
+      )}
     </div>
   )
 }
