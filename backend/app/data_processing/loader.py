@@ -1,6 +1,125 @@
 import io
+import re
 
 import pandas as pd  # type: ignore
+
+
+def parse_title(lines):
+
+    info = {}
+
+    if not lines:
+        return info
+
+    title = lines[0].strip()
+
+    if title:
+        info["title"] = title
+
+        if "-" in title:
+            indicator, location = title.split("-", 1)
+            info["indicator"] = indicator.strip()
+            info["location"] = location.strip()
+
+    return info
+
+
+def parse_query_fields(lines):
+
+    metadata = {}
+
+    for line in lines:
+
+        if ":" in line:
+
+            key, value = line.split(":", 1)
+
+            key = key.strip()
+            value = value.strip()
+
+            if key and value and len(key) < 60 and len(value) < 120:
+                metadata[key] = value
+
+    return metadata
+
+
+def parse_structure(lines):
+
+    structure = {}
+
+    for line in lines:
+
+        if " por " in line and " e " in line:
+
+            structure["description"] = line.strip()
+
+            metric, rest = line.split(" por ", 1)
+
+            structure["metric"] = metric.strip()
+
+            axes = rest.split(" e ")
+
+            if len(axes) == 2:
+                structure["row_dimension"] = axes[0].strip()
+                structure["column_dimension"] = axes[1].strip()
+
+            break
+
+    return structure
+
+
+def extract_metadata(lines):
+
+    metadata = {}
+
+    metadata.update(parse_title(lines))
+    metadata.update(parse_query_fields(lines))
+    metadata.update(parse_structure(lines))
+
+    return metadata
+
+
+def detect_table_start(lines):
+
+    for i, line in enumerate(lines):
+
+        if ":" in line:
+            continue
+
+        tokens = re.split(r"\s{2,}|\t|;", line.strip())
+
+        if len(tokens) >= 2:
+
+            if "Fonte" in line:
+                continue
+
+            return i
+
+    return None
+
+
+def remove_tabnet_footer(df):
+
+    first_col = df.columns[0]
+
+    stop_patterns = [
+        r"^Fonte",
+        r"^Nota",
+        r"^\-",
+    ]
+
+    mask = df[first_col].astype(str).str.contains(
+        "|".join(stop_patterns),
+        case=False,
+        regex=True,
+        na=False,
+    )
+
+    if mask.any():
+        first_index = mask.idxmax()
+        df = df.loc[: first_index - 1]
+
+    return df
 
 
 def load_csv(file):
@@ -12,22 +131,19 @@ def load_csv(file):
     except UnicodeDecodeError:
         text = raw.decode("latin1")
 
-    if "Cap I" not in text:
+    lines = text.splitlines()
+
+    metadata = extract_metadata(lines[:120])
+
+    header_index = detect_table_start(lines)
+
+    if header_index is None:
 
         buffer = io.StringIO(text)
 
         df = pd.read_csv(buffer, sep=None, engine="python")
 
     else:
-
-        lines = text.splitlines()
-
-        header_index = None
-
-        for i, line in enumerate(lines):
-            if "Cap I" in line:
-                header_index = i
-                break
 
         table_text = "\n".join(lines[header_index:])
 
@@ -40,25 +156,18 @@ def load_csv(file):
             on_bad_lines="skip",
         )
 
-    # ------------------------
-    # LIMPEZA DOS DADOS
-    # ------------------------
-
-    # remover aspas das colunas
     df.columns = df.columns.str.replace('"', "").str.strip()
 
-    # remover aspas dos valores
     df = df.replace('"', "", regex=True)
 
-    # transformar "-" em NaN
     df = df.replace("-", pd.NA)
 
-    # converter colunas numéricas
-    for col in df.columns[1:]:
-        df[col] = pd.to_numeric(df[col], errors="coerce")
+    if len(df.columns) > 1:
 
-    print("\n========== CSV CLEANED ==========")
-    print(df.head())
-    print("=================================\n")
+        for col in df.columns[1:]:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    return df
+    # remover rodapé do tabnet
+    df = remove_tabnet_footer(df)
+
+    return df, metadata
