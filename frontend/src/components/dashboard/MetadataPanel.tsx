@@ -1,5 +1,7 @@
 'use client'
 
+import { metadataLabels } from '@/utils/metadataLabels'
+
 interface Props {
   metadata: Record<string, any>
 }
@@ -27,6 +29,10 @@ export default function MetadataPanel({ metadata }: Props) {
         {Object.entries(metadata).map(([key, value]) => {
           if (key === 'title') return null
 
+          const label =
+            metadataLabels[key] ||
+            key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
+
           return (
             <div
               key={key}
@@ -40,7 +46,7 @@ export default function MetadataPanel({ metadata }: Props) {
               "
             >
               <p className="text-xs text-gray-500 uppercase tracking-wide">
-                {key.replace(/_/g, ' ')}
+                {label}
               </p>
 
               <p className="text-primaryDark font-semibold mt-1">
