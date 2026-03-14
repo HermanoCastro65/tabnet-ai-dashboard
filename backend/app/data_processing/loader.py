@@ -4,28 +4,29 @@ import re
 import pandas as pd  # type: ignore
 
 
-def extract_metadata(lines):
+def parse_title(lines):
+
+    info = {}
+
+    if not lines:
+        return info
+
+    title = lines[0].strip()
+
+    if title:
+        info["title"] = title
+
+        if "-" in title:
+            indicator, location = title.split("-", 1)
+            info["indicator"] = indicator.strip()
+            info["location"] = location.strip()
+
+    return info
+
+
+def parse_query_fields(lines):
 
     metadata = {}
-
-    # -------------------------
-    # título da pesquisa
-    # -------------------------
-
-    if lines:
-        title = lines[0].strip()
-        if title:
-            metadata["title"] = title
-
-            # tentar extrair local do título
-            if "-" in title:
-                parts = title.split("-", 1)
-                metadata["indicator"] = parts[0].strip()
-                metadata["location"] = parts[1].strip()
-
-    # -------------------------
-    # query fields (filtros)
-    # -------------------------
 
     for line in lines:
 
@@ -36,11 +37,44 @@ def extract_metadata(lines):
             key = key.strip()
             value = value.strip()
 
-            if key and value and len(key) < 60:
+            if key and value and len(key) < 60 and len(value) < 120:
+                metadata[key] = value
 
-                # evitar capturar textos grandes
-                if len(value) < 120:
-                    metadata[key] = value
+    return metadata
+
+
+def parse_structure(lines):
+
+    structure = {}
+
+    for line in lines:
+
+        if " por " in line and " e " in line:
+
+            structure["description"] = line.strip()
+
+            metric, rest = line.split(" por ", 1)
+
+            structure["metric"] = metric.strip()
+
+            axes = rest.split(" e ")
+
+            if len(axes) == 2:
+                structure["row_dimension"] = axes[0].strip()
+                structure["column_dimension"] = axes[1].strip()
+
+            break
+
+    return structure
+
+
+def extract_metadata(lines):
+
+    metadata = {}
+
+    metadata.update(parse_title(lines))
+    metadata.update(parse_query_fields(lines))
+    metadata.update(parse_structure(lines))
 
     return metadata
 
@@ -54,14 +88,38 @@ def detect_table_start(lines):
 
         tokens = re.split(r"\s{2,}|\t|;", line.strip())
 
-        if len(tokens) >= 3:
+        if len(tokens) >= 2:
 
-            if "Óbitos" in line and "por" in line:
+            if "Fonte" in line:
                 continue
 
             return i
 
     return None
+
+
+def remove_tabnet_footer(df):
+
+    first_col = df.columns[0]
+
+    stop_patterns = [
+        r"^Fonte",
+        r"^Nota",
+        r"^\-",
+    ]
+
+    mask = df[first_col].astype(str).str.contains(
+        "|".join(stop_patterns),
+        case=False,
+        regex=True,
+        na=False,
+    )
+
+    if mask.any():
+        first_index = mask.idxmax()
+        df = df.loc[: first_index - 1]
+
+    return df
 
 
 def load_csv(file):
@@ -75,7 +133,7 @@ def load_csv(file):
 
     lines = text.splitlines()
 
-    metadata = extract_metadata(lines[:100])
+    metadata = extract_metadata(lines[:120])
 
     header_index = detect_table_start(lines)
 
@@ -104,7 +162,12 @@ def load_csv(file):
 
     df = df.replace("-", pd.NA)
 
-    for col in df.columns[1:]:
-        df[col] = pd.to_numeric(df[col], errors="coerce")
+    if len(df.columns) > 1:
+
+        for col in df.columns[1:]:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+
+    # remover rodapé do tabnet
+    df = remove_tabnet_footer(df)
 
     return df, metadata
