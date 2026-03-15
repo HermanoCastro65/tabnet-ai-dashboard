@@ -1,17 +1,18 @@
 import json
 
-from app.data_processing.loader import load_csv
-from app.data_processing.statistics import basic_statistics
-from app.storage.dataset_store import dataset_store
+from app.core.config import DEFAULT_PREVIEW_LIMIT
+from app.data.dataset_store import dataset_store
+from app.processing.csv_loader import load_csv_dataset
+from app.processing.statistics import compute_basic_statistics
 
 
-def process_dataset(file):
+def handle_dataset_upload(file):
 
-    df, metadata = load_csv(file)
+    dataframe, metadata = load_csv_dataset(file)
 
-    dataset_id = dataset_store.save(df)
+    dataset_id = dataset_store.save(dataframe)
 
-    stats = basic_statistics(df)
+    stats = compute_basic_statistics(dataframe)
 
     return {
         "dataset_id": dataset_id,
@@ -20,19 +21,19 @@ def process_dataset(file):
     }
 
 
-def get_dataset_preview(dataset_id, limit=50):
+def get_dataset_preview(dataset_id, limit=DEFAULT_PREVIEW_LIMIT):
 
-    df = dataset_store.get(dataset_id)
+    dataframe = dataset_store.get(dataset_id)
 
-    if df is None:
+    if dataframe is None:
         return None
 
-    preview_df = df.head(limit)
+    preview_df = dataframe.head(limit)
 
     preview = json.loads(preview_df.to_json(orient="records"))
 
     return {
         "dataset_id": dataset_id,
-        "columns": list(df.columns),
+        "columns": list(dataframe.columns),
         "preview": preview,
     }

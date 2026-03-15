@@ -1,6 +1,6 @@
 import pandas as pd  # type: ignore
 
-from app.storage.dataset_store import DatasetStore
+from app.data.dataset_store import DatasetStore
 
 
 def test_store_and_retrieve_dataset():
