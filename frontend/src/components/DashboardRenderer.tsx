@@ -2,12 +2,7 @@
 
 import { DashboardSpec } from '../types/dashboard'
 
-import {
-  AutoBarChart,
-  AutoStackedBarChart,
-  AutoLineChart,
-  AutoPieChart,
-} from './charts'
+import { AutoBarChart, AutoStackedBarChart, AutoLineChart, AutoPieChart } from './charts'
 
 type Props = {
   dashboard: DashboardSpec
@@ -22,11 +17,7 @@ export default function DashboardRenderer({ dashboard, data }: Props) {
           case 'bar':
             return (
               <div key={index} className="w-full">
-                <AutoBarChart
-                  data={data}
-                  dimension={chart.dimension}
-                  metrics={chart.metrics}
-                />
+                <AutoBarChart data={data} dimension={chart.dimension} metrics={chart.metrics} />
               </div>
             )
 
@@ -45,22 +36,14 @@ export default function DashboardRenderer({ dashboard, data }: Props) {
           case 'line':
             return (
               <div key={index} className="w-full">
-                <AutoLineChart
-                  data={data}
-                  dimension={chart.dimension}
-                  metrics={chart.metrics}
-                />
+                <AutoLineChart data={data} dimension={chart.dimension} metrics={chart.metrics} />
               </div>
             )
 
           case 'pie':
             return (
               <div key={index} className="w-full">
-                <AutoPieChart
-                  data={data}
-                  dimension={chart.dimension}
-                  metrics={chart.metrics}
-                />
+                <AutoPieChart data={data} dimension={chart.dimension} metrics={chart.metrics} />
               </div>
             )
 

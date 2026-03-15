@@ -9,12 +9,7 @@ export default function Navbar() {
         {/* Logo clicável */}
 
         <Link href="/plataforma" className="flex items-center">
-          <Image
-            src={logo}
-            alt="TabNet AI Dashboard"
-            className="h-16 w-auto"
-            priority
-          />
+          <Image src={logo} alt="TabNet AI Dashboard" className="h-16 w-auto" priority />
         </Link>
 
         {/* Menu */}

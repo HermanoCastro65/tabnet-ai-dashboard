@@ -1,4 +1,4 @@
-import { fetchDatasetPreview } from '../services/api'
+import { fetchDatasetPreview } from '@/services/api'
 
 describe('Dataset API', () => {
   it('should fetch dataset preview', async () => {
@@ -9,7 +9,7 @@ describe('Dataset API', () => {
 
       expect(data).toHaveProperty('columns')
       expect(data).toHaveProperty('preview')
-    } catch (err) {
+    } catch {
       expect(true).toBe(true)
     }
   })

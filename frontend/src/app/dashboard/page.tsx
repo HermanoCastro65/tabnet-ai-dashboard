@@ -7,15 +7,9 @@ import DataTable from '../../components/table/DataTable'
 import MetadataPanel from '../../components/dashboard/MetadataPanel'
 import { useDataset } from '../../hooks/useDataset'
 import DashboardRenderer from '@/components/DashboardRenderer'
-import { generateDashboard } from '@/generator/dashboardGenerator'
+import { generateDashboard } from '@/modules/generator/dashboardGenerator'
 
-function DatasetSection({
-  datasetId,
-  metadata,
-}: {
-  datasetId: string
-  metadata: any
-}) {
+function DatasetSection({ datasetId, metadata }: { datasetId: string; metadata: any }) {
   const { data, isLoading, error } = useDataset(datasetId)
 
   const dashboard =
@@ -30,13 +24,9 @@ function DatasetSection({
     <div className="mb-24">
       {metadata && <MetadataPanel metadata={metadata} />}
 
-      {isLoading && (
-        <p className="text-center text-gray-600">Carregando dados...</p>
-      )}
+      {isLoading && <p className="text-center text-gray-600">Carregando dados...</p>}
 
-      {error && (
-        <p className="text-center text-red-500">Erro ao carregar dataset</p>
-      )}
+      {error && <p className="text-center text-red-500">Erro ao carregar dataset</p>}
 
       {data && (
         <>
@@ -84,16 +74,10 @@ export default function Dashboard() {
 
       <section className="py-24 bg-background animate-fadeIn">
         <div className="max-w-[1400px] mx-auto px-6">
-          <h1 className="text-4xl font-bold text-primary mb-12 text-center">
-            Dashboard
-          </h1>
+          <h1 className="text-4xl font-bold text-primary mb-12 text-center">Dashboard</h1>
 
           {datasetIds.map((id, index) => (
-            <DatasetSection
-              key={id}
-              datasetId={id}
-              metadata={metadatas[index] || null}
-            />
+            <DatasetSection key={id} datasetId={id} metadata={metadatas[index] || null} />
           ))}
         </div>
       </section>

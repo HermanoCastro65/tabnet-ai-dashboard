@@ -1,12 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 
 interface Props {
   columns: string[]
@@ -74,10 +69,7 @@ export default function DataTable({ columns, data }: Props) {
                     key={header.id}
                     className="px-6 py-3 text-left font-semibold whitespace-nowrap bg-primary sticky top-0 z-50"
                   >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext(),
-                    )}
+                    {flexRender(header.column.columnDef.header, header.getContext())}
                   </th>
                 ))}
               </tr>
@@ -95,10 +87,7 @@ export default function DataTable({ columns, data }: Props) {
                 `}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="px-6 py-3 text-gray-700 whitespace-nowrap"
-                  >
+                  <td key={cell.id} className="px-6 py-3 text-gray-700 whitespace-nowrap">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

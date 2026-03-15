@@ -20,8 +20,10 @@ export type DatasetAnalysis = {
   datasetType: 'single_metric' | 'multi_metric' | 'time_series' | 'distribution'
 }
 
+export type ChartType = 'bar' | 'stacked_bar' | 'line' | 'pie'
+
 export type ChartSpec = {
-  type: 'bar' | 'stacked_bar' | 'line' | 'pie'
+  type: ChartType
   dimension: string
   metrics: string[]
   title?: string

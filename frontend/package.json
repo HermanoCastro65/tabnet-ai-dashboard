@@ -6,9 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint .",
     "test": "jest",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.21",
@@ -36,10 +37,10 @@
     "eslint-config-next": "16.1.6",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
+    "ts-jest": "^29.4.6",
     "postcss": "^8.5.8",
     "prettier": "^3.8.1",
     "tailwindcss": "3.4.4",
-    "ts-jest": "^29.4.6",
     "typescript": "^5"
   }
 }
