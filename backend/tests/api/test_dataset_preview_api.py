@@ -1,21 +1,8 @@
-from fastapi.testclient import TestClient  # type: ignore
-
-from app.main import app
-
-client = TestClient(app)
-
-
-def test_dataset_preview_returns_data():
-
-    csv_content = """age,city,income
-25,Rio,3000
-30,SaoPaulo,4500
-35,Rio,5200
-"""
+def test_dataset_preview_returns_data(client, sample_csv):
 
     upload = client.post(
         "/api/upload",
-        files={"file": ("data.csv", csv_content, "text/csv")},
+        files={"file": ("dataset.csv", sample_csv, "text/csv")},
     )
 
     dataset_id = upload.json()["dataset_id"]
@@ -27,5 +14,31 @@ def test_dataset_preview_returns_data():
     data = response.json()
 
     assert data["dataset_id"] == dataset_id
-    assert len(data["preview"]) > 0
     assert "columns" in data
+    assert "preview" in data
+
+    assert len(data["preview"]) > 0
+    assert len(data["columns"]) == 3
+
+
+def test_dataset_preview_respects_limit(client, sample_csv):
+
+    upload = client.post(
+        "/api/upload",
+        files={"file": ("dataset.csv", sample_csv, "text/csv")},
+    )
+
+    dataset_id = upload.json()["dataset_id"]
+
+    response = client.get(f"/api/dataset/{dataset_id}/preview")
+
+    data = response.json()
+
+    assert len(data["preview"]) <= 50
+
+
+def test_dataset_preview_invalid_dataset_returns_404(client):
+
+    response = client.get("/api/dataset/invalid-id/preview")
+
+    assert response.status_code == 404
