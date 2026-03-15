@@ -1,8 +1,31 @@
+# Maximum allowed line length
 line-length = 100
+
+# Python version target
 target-version = "py312"
 
 [lint]
-select = ["E", "F", "I"]
+
+# Selected rule families
+select = [
+  "E", # pycodestyle errors
+  "F", # pyflakes
+  "I"  # isort (import sorting)
+]
+
+# Ignore rules that conflict with FastAPI style
+ignore = []
 
 [lint.isort]
+
+# Treat "app" as first-party module
 known-first-party = ["app"]
+
+# Standard section ordering
+section-order = [
+  "future",
+  "standard-library",
+  "third-party",
+  "first-party",
+  "local-folder"
+]

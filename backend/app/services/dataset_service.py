@@ -1,17 +1,31 @@
+from __future__ import annotations
+
 import json
+from typing import Optional
 
-from app.data_processing.loader import load_csv
-from app.data_processing.statistics import basic_statistics
-from app.storage.dataset_store import dataset_store
+import pandas as pd  # type: ignore
+from fastapi import UploadFile  # type: ignore
+
+from app.core.config import DEFAULT_PREVIEW_LIMIT
+from app.data.dataset_store import dataset_store
+from app.processing.csv_loader import load_csv_dataset
+from app.processing.statistics import compute_basic_statistics
+from app.types.dataset_types import (
+    DatasetPreviewResponse,
+    DatasetUploadResponse,
+)
 
 
-def process_dataset(file):
+def handle_dataset_upload(file: UploadFile) -> DatasetUploadResponse:
 
-    df, metadata = load_csv(file)
+    dataframe: pd.DataFrame
+    metadata: dict
 
-    dataset_id = dataset_store.save(df)
+    dataframe, metadata = load_csv_dataset(file)
 
-    stats = basic_statistics(df)
+    dataset_id: str = dataset_store.save(dataframe)
+
+    stats = compute_basic_statistics(dataframe)
 
     return {
         "dataset_id": dataset_id,
@@ -20,19 +34,22 @@ def process_dataset(file):
     }
 
 
-def get_dataset_preview(dataset_id, limit=50):
+def get_dataset_preview(
+    dataset_id: str,
+    limit: int = DEFAULT_PREVIEW_LIMIT,
+) -> Optional[DatasetPreviewResponse]:
 
-    df = dataset_store.get(dataset_id)
+    dataframe = dataset_store.get(dataset_id)
 
-    if df is None:
+    if dataframe is None:
         return None
 
-    preview_df = df.head(limit)
+    preview_df = dataframe.head(limit)
 
     preview = json.loads(preview_df.to_json(orient="records"))
 
     return {
         "dataset_id": dataset_id,
-        "columns": list(df.columns),
+        "columns": list(dataframe.columns),
         "preview": preview,
     }

@@ -1,32 +1,37 @@
+from __future__ import annotations
+
 import io
 import re
+from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd  # type: ignore
+from fastapi import UploadFile  # type: ignore
 
 
-def parse_title(lines):
+def parse_title(lines: List[str]) -> Dict[str, Any]:
 
-    info = {}
+    metadata: Dict[str, Any] = {}
 
     if not lines:
-        return info
+        return metadata
 
-    title = lines[0].strip()
+    title: str = lines[0].strip()
 
     if title:
-        info["title"] = title
+
+        metadata["title"] = title
 
         if "-" in title:
             indicator, location = title.split("-", 1)
-            info["indicator"] = indicator.strip()
-            info["location"] = location.strip()
+            metadata["indicator"] = indicator.strip()
+            metadata["location"] = location.strip()
 
-    return info
+    return metadata
 
 
-def parse_query_fields(lines):
+def parse_query_fields(lines: List[str]) -> Dict[str, Any]:
 
-    metadata = {}
+    metadata: Dict[str, Any] = {}
 
     for line in lines:
 
@@ -43,9 +48,9 @@ def parse_query_fields(lines):
     return metadata
 
 
-def parse_structure(lines):
+def parse_structure(lines: List[str]) -> Dict[str, Any]:
 
-    structure = {}
+    structure: Dict[str, Any] = {}
 
     for line in lines:
 
@@ -68,9 +73,9 @@ def parse_structure(lines):
     return structure
 
 
-def extract_metadata(lines):
+def extract_metadata(lines: List[str]) -> Dict[str, Any]:
 
-    metadata = {}
+    metadata: Dict[str, Any] = {}
 
     metadata.update(parse_title(lines))
     metadata.update(parse_query_fields(lines))
@@ -79,9 +84,9 @@ def extract_metadata(lines):
     return metadata
 
 
-def detect_table_start(lines):
+def detect_table_start(lines: List[str]) -> Optional[int]:
 
-    for i, line in enumerate(lines):
+    for index, line in enumerate(lines):
 
         if ":" in line:
             continue
@@ -93,14 +98,14 @@ def detect_table_start(lines):
             if "Fonte" in line:
                 continue
 
-            return i
+            return index
 
     return None
 
 
-def remove_tabnet_footer(df):
+def remove_tabnet_footer(df: pd.DataFrame) -> pd.DataFrame:
 
-    first_col = df.columns[0]
+    first_column: str = df.columns[0]
 
     stop_patterns = [
         r"^Fonte",
@@ -108,7 +113,7 @@ def remove_tabnet_footer(df):
         r"^\-",
     ]
 
-    mask = df[first_col].astype(str).str.contains(
+    mask = df[first_column].astype(str).str.contains(
         "|".join(stop_patterns),
         case=False,
         regex=True,
@@ -116,26 +121,28 @@ def remove_tabnet_footer(df):
     )
 
     if mask.any():
+
         first_index = mask.idxmax()
+
         df = df.loc[: first_index - 1]
 
     return df
 
 
-def load_csv(file):
+def load_csv_dataset(file: UploadFile) -> Tuple[pd.DataFrame, Dict[str, Any]]:
 
-    raw = file.file.read()
+    raw: bytes = file.file.read()
 
     try:
-        text = raw.decode("utf-8")
+        text: str = raw.decode("utf-8")
     except UnicodeDecodeError:
         text = raw.decode("latin1")
 
-    lines = text.splitlines()
+    lines: List[str] = text.splitlines()
 
-    metadata = extract_metadata(lines[:120])
+    metadata: Dict[str, Any] = extract_metadata(lines[:120])
 
-    header_index = detect_table_start(lines)
+    header_index: Optional[int] = detect_table_start(lines)
 
     if header_index is None:
 
@@ -167,7 +174,6 @@ def load_csv(file):
         for col in df.columns[1:]:
             df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    # remover rodapé do tabnet
     df = remove_tabnet_footer(df)
 
     return df, metadata
