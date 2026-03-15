@@ -1,6 +1,11 @@
-def compute_basic_statistics(dataframe):
+import pandas as pd  # type: ignore
+
+from app.types.dataset_types import DatasetStatistics
+
+
+def compute_basic_statistics(dataframe: pd.DataFrame) -> DatasetStatistics:
 
     return {
-        "rows": len(dataframe),
-        "columns": len(dataframe.columns),
+        "rows": int(len(dataframe)),
+        "columns": int(len(dataframe.columns)),
     }
