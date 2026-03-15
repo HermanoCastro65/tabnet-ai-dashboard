@@ -1,8 +1,19 @@
+# Web framework
 fastapi
+
+# ASGI server
 uvicorn
+
+# Data processing
 pandas
+
+# Machine learning / statistical models
 scikit-learn
 prophet
+
+# File upload handling
+python-multipart
+
+# Testing
 pytest
 httpx
-python-multipart

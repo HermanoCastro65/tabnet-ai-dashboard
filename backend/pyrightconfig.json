@@ -1,9 +1,23 @@
 {
+  // Virtual environment configuration
   "venvPath": ".",
   "venv": "venv",
 
+  // Directories analyzed by Pyright
   "include": ["app", "tests"],
 
+  // Ignore caches and compiled artifacts
+  "exclude": [
+    "**/__pycache__",
+    "**/.pytest_cache",
+    "**/.ruff_cache",
+    "**/node_modules"
+  ],
+
+  // Type checking behavior
+  "typeCheckingMode": "basic",
+
+  // Execution environment configuration
   "executionEnvironments": [
     {
       "root": ".",
