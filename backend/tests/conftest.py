@@ -1,4 +1,4 @@
-import pytest
+import pytest  # type: ignore
 from fastapi.testclient import TestClient  # type: ignore
 
 from app.main import app
