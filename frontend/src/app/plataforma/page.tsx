@@ -14,9 +14,7 @@ export default function Plataforma() {
   const [error, setError] = useState('')
 
   function validateFiles(newFiles: File[]) {
-    const csvFiles = newFiles.filter((file) =>
-      file.name.toLowerCase().endsWith('.csv'),
-    )
+    const csvFiles = newFiles.filter((file) => file.name.toLowerCase().endsWith('.csv'))
 
     if (csvFiles.length !== newFiles.length) {
       setError('Apenas arquivos CSV são permitidos.')
@@ -120,13 +118,10 @@ export default function Plataforma() {
 
       <section className="py-24 bg-background animate-fadeIn">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-4xl font-bold mb-8 text-primary">
-            Plataforma TabNet AI
-          </h1>
+          <h1 className="text-4xl font-bold mb-8 text-primary">Plataforma TabNet AI</h1>
 
           <p className="text-gray-700 mb-10">
-            Envie até 3 arquivos CSV do TabNet para gerar dashboards
-            automáticos.
+            Envie até 3 arquivos CSV do TabNet para gerar dashboards automáticos.
           </p>
 
           {/* Upload */}
@@ -146,9 +141,7 @@ export default function Plataforma() {
                 ${dragActive ? 'border-yellow-400 bg-yellow-50' : 'border-gray-300'}
             `}
           >
-            <p className="text-lg mb-6 text-gray-700">
-              Arraste arquivos CSV aqui
-            </p>
+            <p className="text-lg mb-6 text-gray-700">Arraste arquivos CSV aqui</p>
 
             <p className="text-gray-500 mb-6">ou</p>
 
@@ -166,22 +159,14 @@ export default function Plataforma() {
               "
             >
               Selecionar arquivos
-              <input
-                type="file"
-                accept=".csv"
-                multiple
-                onChange={handleFile}
-                className="hidden"
-              />
+              <input type="file" accept=".csv" multiple onChange={handleFile} className="hidden" />
             </label>
 
             {/* Lista arquivos */}
 
             {files.length > 0 && (
               <div className="mt-8 text-left">
-                <p className="font-semibold mb-4 text-gray-700">
-                  Arquivos selecionados:
-                </p>
+                <p className="font-semibold mb-4 text-gray-700">Arquivos selecionados:</p>
 
                 <ul className="space-y-3">
                   {files.map((file, index) => (

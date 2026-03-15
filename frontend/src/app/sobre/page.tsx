@@ -12,34 +12,32 @@ export default function Sobre() {
 
       <section className="py-24 bg-background animate-fadeIn">
         <div className="max-w-6xl mx-auto px-6">
-          <h1 className="text-4xl font-bold mb-10 text-primary text-center">
-            Sobre o Projeto
-          </h1>
+          <h1 className="text-4xl font-bold mb-10 text-primary text-center">Sobre o Projeto</h1>
 
           <div className="text-gray-700 text-lg leading-relaxed space-y-6 text-center max-w-3xl mx-auto">
             <p>
-              O <strong>TabNet AI Dashboard</strong> é uma plataforma
-              desenvolvida para facilitar a análise de dados públicos do sistema
+              O <strong>TabNet AI Dashboard</strong> é uma plataforma desenvolvida para facilitar a
+              análise de dados públicos do sistema
               <strong> DataSUS / TabNet</strong>.
             </p>
 
             <p>
               A aplicação permite que o usuário envie até
-              <strong> 3 planilhas CSV geradas pelo TabNet</strong> e
-              automaticamente transforme esses dados em
+              <strong> 3 planilhas CSV geradas pelo TabNet</strong> e automaticamente transforme
+              esses dados em
               <strong> tabelas e dashboards interativos</strong>.
             </p>
 
             <p>
-              A plataforma processa os dados e gera visualizações que permitem
-              explorar rapidamente indicadores de saúde pública através de
+              A plataforma processa os dados e gera visualizações que permitem explorar rapidamente
+              indicadores de saúde pública através de
               <strong> tabelas estruturadas e gráficos interativos</strong>.
             </p>
 
             <p>
-              O objetivo do projeto é simplificar o acesso e a análise de dados
-              epidemiológicos, tornando informações públicas mais acessíveis
-              para estudantes, pesquisadores e profissionais da área da saúde.
+              O objetivo do projeto é simplificar o acesso e a análise de dados epidemiológicos,
+              tornando informações públicas mais acessíveis para estudantes, pesquisadores e
+              profissionais da área da saúde.
             </p>
 
             <p>
@@ -77,8 +75,7 @@ export default function Sobre() {
               />
 
               <p className="text-sm text-gray-700 mt-4 text-center">
-                Dashboard gerado automaticamente a partir de planilhas do
-                TabNet.
+                Dashboard gerado automaticamente a partir de planilhas do TabNet.
               </p>
             </div>
 
@@ -109,8 +106,7 @@ export default function Sobre() {
               />
 
               <p className="text-sm text-gray-700 mt-4 text-center">
-                Visualizações gráficas interativas geradas automaticamente pelo
-                sistema.
+                Visualizações gráficas interativas geradas automaticamente pelo sistema.
               </p>
             </div>
           </div>

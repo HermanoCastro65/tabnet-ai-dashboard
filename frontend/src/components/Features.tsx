@@ -35,9 +35,7 @@ export default function Features() {
             cursor-default
             "
           >
-            <h3 className="text-xl font-semibold mb-4 text-primary">
-              {f.title}
-            </h3>
+            <h3 className="text-xl font-semibold mb-4 text-primary">{f.title}</h3>
 
             <p className="text-gray-600">{f.desc}</p>
           </div>

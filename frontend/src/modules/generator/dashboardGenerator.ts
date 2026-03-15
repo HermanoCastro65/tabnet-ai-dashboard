@@ -7,10 +7,8 @@ export function generateDashboard(dataset: Dataset): DashboardSpec {
 
   const charts = planVisualizations(analysis)
 
-  const stats = analysis.metrics
-
   return {
     charts,
-    stats,
+    stats: analysis.metrics,
   }
 }

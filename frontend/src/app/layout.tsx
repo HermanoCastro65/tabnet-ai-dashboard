@@ -6,11 +6,7 @@ export const metadata = {
   description: 'Análise inteligente de dados do DataSUS',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
       <body>

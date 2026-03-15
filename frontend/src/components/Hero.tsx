@@ -5,8 +5,8 @@ export default function Hero() {
         <h1 className="text-5xl font-bold mb-6">TabNet AI Dashboard</h1>
 
         <p className="text-xl mb-10 opacity-90">
-          Transforme planilhas do TabNet / DataSUS em dashboards interativos,
-          análises exploratórias e insights gerados por inteligência artificial.
+          Transforme planilhas do TabNet / DataSUS em dashboards interativos, análises exploratórias
+          e insights gerados por inteligência artificial.
         </p>
       </div>
     </section>

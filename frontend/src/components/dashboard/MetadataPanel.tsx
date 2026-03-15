@@ -14,13 +14,9 @@ export default function MetadataPanel({ metadata }: Props) {
       {/* Header principal */}
 
       <div className="bg-primary text-white rounded-xl shadow-lg p-8 mb-6">
-        <h2 className="text-3xl font-bold mb-2">
-          {metadata.title || 'Dataset'}
-        </h2>
+        <h2 className="text-3xl font-bold mb-2">{metadata.title || 'Dataset'}</h2>
 
-        <p className="text-blue-100">
-          {metadata.description || metadata.metric}
-        </p>
+        <p className="text-blue-100">{metadata.description || metadata.metric}</p>
       </div>
 
       {/* Informações */}
@@ -30,8 +26,7 @@ export default function MetadataPanel({ metadata }: Props) {
           if (key === 'title') return null
 
           const label =
-            metadataLabels[key] ||
-            key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
+            metadataLabels[key] || key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
 
           return (
             <div
@@ -45,13 +40,9 @@ export default function MetadataPanel({ metadata }: Props) {
               border-gray-200
               "
             >
-              <p className="text-xs text-gray-500 uppercase tracking-wide">
-                {label}
-              </p>
+              <p className="text-xs text-gray-500 uppercase tracking-wide">{label}</p>
 
-              <p className="text-primaryDark font-semibold mt-1">
-                {String(value)}
-              </p>
+              <p className="text-primaryDark font-semibold mt-1">{String(value)}</p>
             </div>
           )
         })}

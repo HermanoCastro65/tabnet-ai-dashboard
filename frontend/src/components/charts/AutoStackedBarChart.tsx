@@ -29,29 +29,17 @@ const colors = [
   '#FFD54F',
 ]
 
-export default function AutoStackedBarChart({
-  data,
-  dimension,
-  metrics,
-  title,
-}: Props) {
+export default function AutoStackedBarChart({ data, dimension, metrics, title }: Props) {
   const filteredMetrics = metrics.filter((m) => m.toLowerCase() !== 'total')
 
-  const chartData = data.filter(
-    (row) => String(row[dimension]).toLowerCase() !== 'total',
-  )
+  const chartData = data.filter((row) => String(row[dimension]).toLowerCase() !== 'total')
 
   return (
     <div className="w-full h-[700px] bg-white rounded-xl p-10 shadow-lg">
-      <h3 className="text-lg font-semibold mb-6">
-        {title || `Distribuição por ${dimension}`}
-      </h3>
+      <h3 className="text-lg font-semibold mb-6">{title || `Distribuição por ${dimension}`}</h3>
 
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={chartData}
-          margin={{ top: 20, right: 30, left: 20, bottom: 120 }}
-        >
+        <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 120 }}>
           <CartesianGrid strokeDasharray="3 3" />
 
           <XAxis

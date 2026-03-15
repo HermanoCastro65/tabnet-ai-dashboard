@@ -1,13 +1,15 @@
-import { DatasetAnalysis, ChartSpec } from '../types/dashboard'
+import { DatasetAnalysis, ChartSpec } from '@/types/dashboard'
 
-function getChartTitle(dimension: string) {
+function getChartTitle(dimension: string): string {
   const d = dimension.toLowerCase()
 
   if (d.includes('munic')) return 'Top Municípios'
+
   if (d.includes('faixa')) return 'Distribuição por Faixa Etária'
+
   if (d.includes('sexo')) return 'Distribuição por Sexo'
-  if (d.includes('ano') || d.includes('mês') || d.includes('mes'))
-    return 'Evolução Temporal'
+
+  if (d.includes('ano') || d.includes('mês') || d.includes('mes')) return 'Evolução Temporal'
 
   return `Distribuição por ${dimension}`
 }
@@ -24,7 +26,7 @@ export function planVisualizations(analysis: DatasetAnalysis): ChartSpec[] {
         dimension: analysis.dimension,
         metrics: analysis.metrics,
         title,
-      } as any)
+      })
       break
 
     case 'multi_metric':
@@ -33,7 +35,7 @@ export function planVisualizations(analysis: DatasetAnalysis): ChartSpec[] {
         dimension: analysis.dimension,
         metrics: analysis.metrics,
         title,
-      } as any)
+      })
       break
 
     case 'time_series':
@@ -42,7 +44,7 @@ export function planVisualizations(analysis: DatasetAnalysis): ChartSpec[] {
         dimension: analysis.dimension,
         metrics: analysis.metrics,
         title,
-      } as any)
+      })
       break
 
     case 'distribution':
@@ -51,7 +53,7 @@ export function planVisualizations(analysis: DatasetAnalysis): ChartSpec[] {
         dimension: analysis.dimension,
         metrics: analysis.metrics,
         title,
-      } as any)
+      })
       break
   }
 
