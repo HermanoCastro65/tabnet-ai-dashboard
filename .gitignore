@@ -1,49 +1,86 @@
-# =========================
+# =====================================================
 # OS
-# =========================
+# =====================================================
+
 .DS_Store
 Thumbs.db
 
-# =========================
-# Python
-# =========================
-backend/venv/
-backend/__pycache__/
-backend/.pytest_cache/
-backend/.ruff_cache/
-backend/*.pyc
-backend/*.pyo
-backend/*.pyd
+# =====================================================
+# IDE / Editors
+# =====================================================
 
-# env
-backend/.env
+.vscode/
+.idea/
 
-# =========================
-# Node / Next.js
-# =========================
-frontend/node_modules/
-frontend/.next/
-frontend/out/
+# =====================================================
+# Logs
+# =====================================================
 
-# logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# =========================
+# =====================================================
+# Python / Backend
+# =====================================================
+
+backend/venv/
+backend/.venv/
+
+backend/__pycache__/
+backend/**/*.pyc
+backend/**/*.pyo
+backend/**/*.pyd
+
+backend/.pytest_cache/
+backend/.ruff_cache/
+backend/.mypy_cache/
+
+# environment variables
+backend/.env
+
+# Python build artifacts
+backend/build/
+backend/dist/
+backend/*.egg-info/
+
+# =====================================================
+# Node / Next.js / Frontend
+# =====================================================
+
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+
+# Next cache
+frontend/.turbo/
+
+# environment variables
+frontend/.env*
+!frontend/.env.example
+
+# =====================================================
+# Testing
+# =====================================================
+
+coverage/
+frontend/coverage/
+
+# =====================================================
 # Docker
-# =========================
+# =====================================================
+
 docker-compose.override.yml
+*.pid
 
-# =========================
-# IDE
-# =========================
-.vscode/
-.idea/
+# =====================================================
+# Misc
+# =====================================================
 
-# =========================
-# misc
-# =========================
-*.log
+*.tmp
+*.cache
 
+# Lockfiles (keep yarn.lock but ignore npm)
 frontend/package-lock.json

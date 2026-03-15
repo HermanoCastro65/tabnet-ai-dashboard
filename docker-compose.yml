@@ -1,19 +1,28 @@
 version: "3.9"
 
 services:
-
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
-    depends_on:
-      - backend
-
   backend:
+    container_name: tabnet-backend
     build: ./backend
     ports:
       - "8000:8000"
-    volumes:
-      - ./backend:/app
+    restart: unless-stopped
+    networks:
+      - tabnet-network
+
+  frontend:
+    container_name: tabnet-frontend
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    networks:
+      - tabnet-network
+
+networks:
+  tabnet-network:
+    driver: bridge
